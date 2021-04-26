@@ -1,1 +1,2 @@
 # PlanisphereByGherkinAppium
+* Selenium練習用仮想サイトのMobileデバイステスト用
