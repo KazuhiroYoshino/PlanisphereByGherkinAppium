@@ -117,6 +117,7 @@ public class WebConnector {
     private void setWebDriver() throws InterruptedException, MalformedURLException {
 	    DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
 	    desiredCapabilities.setCapability("deviceName","Android Emulator");
+	    desiredCapabilities.setCapability("automationName", "Appium");
 	    desiredCapabilities.setCapability("platformName", "Android");
 	    desiredCapabilities.setCapability("platformVersion", "10.0");
 

@@ -86,6 +86,13 @@ public class StepDefinitions {
     	connector.clickHrefAndWait(href);
     }
 
+    @もし("^ログインボタンをクリックする$")
+    public void logIn() throws InterruptedException {
+    	String selector = "login-button";
+
+    	connector.btnClickAndWait_ID(selector);
+    }
+
     @もし("^ログアウトする$")
     public void logOut() throws InterruptedException {
     	String selector = "#logout-form > button";
@@ -449,9 +456,18 @@ public class StepDefinitions {
     	connector.inputAndWait(commandLocater, tel);
     }
 
-    @かつ("メールアドレスを\"([^\"]*)\"で\"([^\"]*)\"にして$")
-    public void mailSetting(String commandLocater, String email) {
+    @かつ("^メールアドレスに\"([^\"]*)\"を入力して$")
+    public void mailSetting(String email) {
+    	String selector = "email";
 
+    	connector.inputAndWait(selector, email);
+    }
+
+    @かつ("^パスワードに\"([^\"]*)\"を入力して$")
+    public void passSetting(String pass) {
+    	String selector = "password";
+
+    	connector.inputAndWait(selector, pass);
     }
 
     @もし("連絡事項を\"([^\"]*)\"にして$")
@@ -537,12 +553,72 @@ public class StepDefinitions {
 //        }
 //    }
 
-
+/**
+ * 検証系
+ */
 
 /**
 * 表示結果のチェック
      * @param pattern 検索するテキスト
+ * @throws InterruptedException
      */
+	@ならば("^氏名が\"([^\"]*)\"と表示されること$")
+	public void checkName(String username) throws InterruptedException {
+		String selector = "username";
+
+		assertTrue(connector.testText(selector, username));
+	}
+
+	@ならば("^会員ランクが\"([^\"]*)\"と表示されること$")
+	public void checkRank(String rank) throws InterruptedException {
+		String selector = "rank";
+
+		assertTrue(connector.testText(selector, rank));
+	}
+
+	@ならば("^住所が\"([^\"]*)\"と表示されること$")
+	public void checkAddress(String address) throws InterruptedException {
+		String selector = "address";
+
+		if(address.length() != 0) {
+			assertTrue(connector.testText(selector, address));
+		}
+	}
+
+	@ならば("^電話番号が\"([^\"]*)\"と表示されること$")
+	public void checkTel(String tel) throws InterruptedException {
+		String selector = "tel";
+
+		if(tel.length() != 0) {
+			assertTrue(connector.testText(selector, tel));
+		}
+	}
+
+	@ならば("^性別が\"([^\"]*)\"と表示されること$")
+	public void checkGender(String gender) throws InterruptedException {
+		String selector = "gender";
+
+		if(gender.length() != 0) {
+			assertTrue(connector.testText(selector, gender));
+		}
+	}
+
+	@ならば("^生年月日が\"([^\"]*)\"と表示されること$")
+	public void checkBirthday(String birthday) throws InterruptedException {
+		String selector = "birthday";
+
+		if(birthday.length() != 0) {
+			assertTrue(connector.testText(selector, birthday));
+		}
+	}
+
+	@ならば("^お知らせが\"([^\"]*)\"と表示されること$")
+	public void checkNotice(String notice) throws InterruptedException {
+		String selector = "notification";
+
+		assertTrue(connector.testText(selector, notice));
+	}
+
     @ならば("画面に\"([^\"]*)\"と表示されていること$")
     public void search_text(String pattern) {
         assertTrue(connector.isTextPresent(pattern));
