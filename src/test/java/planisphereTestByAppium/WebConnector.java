@@ -37,12 +37,14 @@ public class WebConnector {
     private final String BROWSER_FF = "FireFox";
     private final String BROWSER_OPERA = "Opera";
     private final String BROWSER_CR = "Chrome";
+    private final String BROWSER_Default = "Browser";
     // ブラウザタイプ
     private final int BROWSER_TYPE_IE = 0;
     private final int BROWSER_TYPE_EDGE = 1;
     private final int BROWSER_TYPE_FF = 2;
     private final int BROWSER_TYPE_OPERA = 3;
     private final int BROWSER_TYPE_CR = 4;
+    private final int BROWSER_TYPE_DF = 5;
 
 	private AndroidDriver<AndroidElement> Andriver;
 
@@ -97,13 +99,15 @@ public class WebConnector {
      * @throws MalformedURLException
      */
     public void selectWebDriver(String browser) throws InterruptedException, MalformedURLException {
-        this.DriverType = BROWSER_TYPE_CR;
+        this.DriverType = BROWSER_TYPE_DF;
         if (browser.equals(BROWSER_EDGE)) {
             this.DriverType = BROWSER_TYPE_EDGE;
         } else if (browser.equals(BROWSER_FF)) {
             this.DriverType = BROWSER_TYPE_FF;
         } else if (browser.equals(BROWSER_OPERA)) {
             this.DriverType = BROWSER_TYPE_OPERA;
+        } else if (browser.equals(BROWSER_CR)) {
+        	this.DriverType = BROWSER_TYPE_CR;
         }
         //WebDriverのセット
         this.setWebDriver();
@@ -133,9 +137,11 @@ public class WebConnector {
         case BROWSER_TYPE_OPERA: // Opera
     	    desiredCapabilities.setCapability("browserName", "opera");
             break;
-
-        default: // Chrome
+        case BROWSER_TYPE_CR: //Chrome
     	    desiredCapabilities.setCapability("browserName", "chrome");
+        	break;
+        default: // Default Browser
+    	    desiredCapabilities.setCapability("browserName", "Browser");
 //            webDriver =new ChromeDriver(options);
             break;
         }
