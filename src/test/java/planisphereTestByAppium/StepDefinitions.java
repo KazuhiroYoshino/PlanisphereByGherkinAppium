@@ -19,6 +19,11 @@ public class StepDefinitions {
     private int termValueWeekEnd;
     private String comment144 = "123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC12345678";
 
+    private static String mobileBrowserType;
+    private static String mobileUrl;
+    private static String id;
+    private static String passwd;
+
 //    public void WebSteps(WebConnector connector) {
 //        this.connector = connector;
 //    }
@@ -33,7 +38,7 @@ public class StepDefinitions {
  */
 	@前提("^Webドライバは\"([^\"]*)\"を選択する$")
     public void select_webdriver(String browserType) throws InterruptedException, MalformedURLException {
-//		System.out.println(browserType);
+		mobileBrowserType = browserType;
 		connector.selectWebDriver(browserType);
     }
 
@@ -44,6 +49,7 @@ public class StepDefinitions {
  */
     @前提("^ページ\"([^\"]*)\"を表示する$")
     public void display_url(String url) throws InterruptedException {
+    	mobileUrl = url;
         connector.openAndWait(url);
     }
 
@@ -84,6 +90,13 @@ public class StepDefinitions {
     	String href = "./index.html";
 
     	connector.clickHrefAndWait(href);
+    }
+
+    @もし("^ログインボタンをクリックする$")
+    public void logIn() throws InterruptedException {
+    	String selector = "login-button";
+
+    	connector.btnClickAndWait_ID(selector);
     }
 
     @もし("^ログアウトする$")
@@ -387,27 +400,21 @@ public class StepDefinitions {
     public void breakFastSetting(String breakfast) throws InterruptedException {
     	String commandLocater = "breakfast";
 
-    	if(breakfast.equals("on")) {
-    		connector.btnClickAndWait_ID(commandLocater);
-    	}
+    	connector.checkBoxClick(commandLocater, breakfast);
     }
 
     @もし("昼からチェックインプランを\"([^\"]*)\"にして$")
     public void earlySetting(String earlyset) throws InterruptedException {
     	String commandLocater = "early-check-in";
 
-    	if(earlyset.equals("on")) {
-    		connector.btnClickAndWait_ID(commandLocater);
-    	}
+    	connector.checkBoxClick(commandLocater, earlyset);
     }
 
     @もし("お得な観光プランを\"([^\"]*)\"にして$")
     public void sightSeeingSetting(String seeing) throws InterruptedException {
     	String commandLocater = "sightseeing";
 
-    	if(seeing.equals("on")) {
-    		connector.btnClickAndWait_ID(commandLocater);
-    	}
+    	connector.checkBoxClick(commandLocater, seeing);
     }
 
     @もし("^氏名を\"([^\"]*)\"として$")
@@ -448,6 +455,23 @@ public class StepDefinitions {
 
     	connector.inputAndWait(commandLocater, tel);
     }
+
+    @かつ("^メールアドレスに\"([^\"]*)\"を入力して$")
+    public void mailSetting(String email) {
+    	String selector = "email";
+
+    	id = email;
+    	connector.inputAndWait(selector, email);
+    }
+
+    @かつ("^パスワードに\"([^\"]*)\"を入力して$")
+    public void passSetting(String pass) {
+    	String selector = "password";
+
+    	passwd = pass;
+    	connector.inputAndWait(selector, pass);
+    }
+
 
     @かつ("メールアドレスを\"([^\"]*)\"で\"([^\"]*)\"にして$")
     public void mailSetting(String commandLocater, String email) {
@@ -513,7 +537,7 @@ public class StepDefinitions {
  * @throws InterruptedException */
     @もし("チェックボックス\"([^\"]*)\"をクリックする$")
     public void checkBox_click(String check) throws InterruptedException {
-    	connector.checkBoxClick(check);
+//    	connector.checkBoxClick(check);
     }
 
 /** ドロップダウンメニュー */
@@ -558,21 +582,45 @@ public class StepDefinitions {
   	  assertTrue(connector.isTitlePresent(title));
     }
 
-    @ならば("表示\"([^\"]*)\"のプラン名が\"([^\"]*)\"については表示\"([^\"]*)\"である$")
-    public void test_ContentsList(String commandLocater, String planName, String hyouji) throws InterruptedException {
-    	assertTrue(connector.checkContensList(commandLocater, planName, hyouji));
+    @ならば("表示のプラン名が\"([^\"]*)\"については表示\"([^\"]*)\"である$")
+    public void test_ContentsList(String planName, String hyouji) throws InterruptedException {
+    	String selector = "card-title";
+
+    	assertTrue(connector.checkContensList(selector, planName, hyouji));
     }
 
     @ならば("合計金額は\"([^\"]*)\"となり$")
-    public void testPrice(String price) {
+    public void testPrice(String price) throws MalformedURLException, InterruptedException {
     	String selector = "total-bill";
+    	boolean res;
 
-    	try {
-        	assertTrue(connector.testPrice(selector, Integer.valueOf(price)));
+        res = connector.testPrice(selector, Integer.valueOf(price));
+        if(res == true) {
+        	assertTrue(res);
+        }else {
+        	connector.destroySelenium();
+        	Thread.sleep(5000);
+        	connector.rebootBrowser(mobileBrowserType,mobileUrl);
+        	connector.btnClickAndWait_CSS("span.navbar-toggler-icon");
+        	Thread.sleep(3000);
 
-    	}catch(Exception e) {
-    		System.out.println("合計料金エラー");
-    	}
+        	if(id != null) {
+        		connector.linkClickAndWait("ログイン");
+        		Thread.sleep(2000);
+        		selector = "email";
+        		connector.inputAndWait(selector, id);
+        		selector = "password";
+        		connector.inputAndWait(selector, passwd);
+            	selector = "login-button";
+            	connector.btnClickAndWait_ID(selector);
+            	Thread.sleep(3000);
+            	connector.btnClickAndWait_CSS("span.navbar-toggler-icon");
+        	}
+        	connector.linkClickAndWait("宿泊予約");
+        	Thread.sleep(5000);
+        	assertTrue(res);
+        }
+        	Thread.sleep(1000);
     }
 
     @ならば("部屋タイプは\"([^\"]*)\"となり$")
