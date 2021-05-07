@@ -44,7 +44,7 @@ public class WebConnector {
     private final int BROWSER_TYPE_OPERA = 3;
     private final int BROWSER_TYPE_CR = 4;
 
-	private AndroidDriver<AndroidElement> Andriver;
+//	private static AndroidDriver<AndroidElement> Andriver;
 
     /** WebDriverクラス */
     public static WebDriver webDriver;
@@ -139,8 +139,9 @@ public class WebConnector {
             break;
         }
 	    URL remoteUrl = new URL("http://localhost:4723/wd/hub");
-	    Andriver = new AndroidDriver<AndroidElement>(remoteUrl, desiredCapabilities);
+//	    Andriver = new AndroidDriver<AndroidElement>(remoteUrl, desiredCapabilities);
 	    webDriver = new AndroidDriver<AndroidElement>(remoteUrl, desiredCapabilities);
+//	    webDriver = = new RemoteWebDriver(remoteUrl,desireCapabilities);
 
 //        this.builder =  new Actions(this.driver);
         Thread.sleep(3000);
@@ -181,6 +182,14 @@ public class WebConnector {
             }
         Thread.sleep(2000);
     }
+
+    public void rebootBrowser(String mobileBrowserType, String mobileUrl) throws InterruptedException, MalformedURLException {
+
+    	selectWebDriver(mobileBrowserType);
+    	openAndWait(mobileUrl);
+
+    }
+
 
     /**
      * 使用言語対応
@@ -683,10 +692,14 @@ public class WebConnector {
     		String targetContent;
     		List<WebElement> contentsList = webDriver.findElements(By.className(commandLocater));
     		boolean res = false;
+    		Actions actions = new Actions(webDriver);
 
     		for(WebElement content : contentsList) {
     			targetContent = content.getText();
     			if(targetContent.equals(planName)) {
+            		actions.moveToElement(content);
+            		actions.perform();
+            		Thread.sleep(500);
     				res = hyouji.contains("yes");
     			}else {
     				res= hyouji.contains("no");
@@ -741,7 +754,7 @@ public class WebConnector {
 
     /**  チェックボックスをクリックする
      * @throws InterruptedException */
-        public void checkBoxClick(String commandLocater) throws InterruptedException {
+        public void checkBoxClick(String commandLocater, String state) throws InterruptedException {
     		WebElement elementPos = webDriver.findElement(By.id(commandLocater));
     		Actions actions = new Actions(webDriver);
     		actions.moveToElement(elementPos);
@@ -750,7 +763,16 @@ public class WebConnector {
 
     		WebElement element = webDriver.findElement(By.id(commandLocater));
     		wait.until(ExpectedConditions.elementToBeClickable(element));
-    		element.click();
+    		if(state.equals("on")) {
+    			if(element.isSelected() == false) {
+    				element.click();
+    			}
+    		}
+    		if(state.equals("off")) {
+    			if(element.isSelected() == true) {
+    				element.click();
+    			}
+    		}
             Thread.sleep(500);
         }
 
@@ -887,7 +909,7 @@ public class WebConnector {
     	}
 
     	public void dateFromSet() {
-    		dt = new Date();
+//    		dt = new Date();
     		String reserveFrom;
     		int reserveYear;
     		int reserveMonth;
@@ -1190,7 +1212,7 @@ public class WebConnector {
     	}
 
     	public void termSet(int term) {
-    		Date dt = new Date();
+//    		Date dt = new Date();
     		Date reserveEnd;
     		String reserveTo;
     		int reserveToYear;
