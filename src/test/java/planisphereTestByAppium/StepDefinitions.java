@@ -572,6 +572,81 @@ public class StepDefinitions {
         assertTrue(connector.isTextPresent(pattern));
     }
 
+	@ならば("^氏名が\"([^\"]*)\"と表示されること$")
+	public void checkName(String username) throws InterruptedException {
+		String selector = "username";
+
+		assertTrue(connector.testText(selector, username));
+	}
+
+	@ならば("^会員ランクが\"([^\"]*)\"と表示されること$")
+	public void checkRank(String rank) throws InterruptedException {
+		String selector = "rank";
+
+		assertTrue(connector.testText(selector, rank));
+	}
+
+	@ならば("^住所が\"([^\"]*)\"と表示されること$")
+	public void checkAddress(String address) throws InterruptedException {
+		String selector = "address";
+
+		if(address.length() != 0) {
+			assertTrue(connector.testText(selector, address));
+		}
+	}
+
+	@ならば("^電話番号が\"([^\"]*)\"と表示されること$")
+	public void checkTel(String tel) throws InterruptedException {
+		String selector = "tel";
+
+		if(tel.length() != 0) {
+			assertTrue(connector.testText(selector, tel));
+		}
+	}
+
+	@ならば("^性別が\"([^\"]*)\"と表示されること$")
+	public void checkGender(String gender) throws InterruptedException {
+		String selector = "gender";
+
+		if(gender.length() != 0) {
+			if(gender.equals("回答しない")) {
+				gender = "未登録";
+			}
+			assertTrue(connector.testText(selector, gender));
+		}
+	}
+
+	@ならば("^生年月日が\"([^\"]*)\"と表示されること$")
+	public void checkBirthday(String birthday) throws InterruptedException {
+		String selector = "birthday";
+		String testBirthday;
+		int birthYear;
+		int birthMonth;
+		int birthDate;
+
+		if(birthday.length() != 0) {
+			birthYear = Integer.valueOf(birthday.substring(0, 4));
+			birthMonth = Integer.valueOf(birthday.substring(5, 7));
+			birthDate = Integer.valueOf(birthday.substring(8, 10));
+
+			testBirthday = String.valueOf(birthYear) + "年" + String.valueOf(birthMonth) + "月" + String.valueOf(birthDate) + "日";
+//			testBirthday = birthday.replaceFirst("/", "年");
+//			testBirthday = testBirthday.replaceFirst("/", "月");
+//			testBirthday = testBirthday + "日";
+			assertTrue(connector.testText(selector, testBirthday));
+		}else {
+			assertTrue(connector.testText(selector, "未登録"));
+		}
+
+	}
+
+	@ならば("^お知らせが\"([^\"]*)\"と表示されること$")
+	public void checkNotice(String notice) throws InterruptedException {
+		String selector = "notification";
+
+		assertTrue(connector.testText(selector, notice));
+	}
+
     @ならば("ポップアップ表示に\"([^\"]*)\"と表示される$")
     public void search_popUp(String pattern) throws InterruptedException {
     	assertTrue(connector.isPopUpPresent(pattern));
