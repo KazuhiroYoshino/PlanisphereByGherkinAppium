@@ -5,8 +5,8 @@ import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(plugin = {"pretty"}, features = "src/test/resources/reserve2.feature"
+@CucumberOptions(plugin = {"pretty"}, features = "src/test/resources/deviceRotate.feature"
 	      )
-public class RunReserveTest {
+public class RunOrientationTest {
 
 }
