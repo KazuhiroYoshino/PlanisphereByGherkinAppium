@@ -19,6 +19,7 @@ public class StepDefinitions {
     private int termValueWeekEnd;
     private String comment144 = "123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC12345678";
 
+    private static String mobileDevice;
     private static String mobileBrowserType;
     private static String mobileUrl;
     private static String id;
@@ -27,6 +28,14 @@ public class StepDefinitions {
 //    public void WebSteps(WebConnector connector) {
 //        this.connector = connector;
 //    }
+
+/**
+ * 使用するデバイスを選ぶ
+ */
+    @前提("^デバイスを\"([^\"]*)\"で選ぶ$")
+    public void selectDevice(String device) {
+    	connector.selectDevice(device);
+    }
 
 /**
  * 使用するWebドライバを指定する
@@ -72,6 +81,20 @@ public class StepDefinitions {
     public void refresh() throws InterruptedException {
     	connector.refresh();
     }
+
+    @もし("^デバイスを\"([^\"]*)\"にする$")
+    public void deviceLandscape(String rotation) throws InterruptedException {
+    	String deviceOrientation = "landscape";
+
+    	if(rotation.equals("横向き")) {
+    		deviceOrientation = "landscape";
+    	}
+    	if(rotation.equals("縦向き")) {
+    		deviceOrientation = "portrait";
+    	}
+    	connector.setDeviceRotation(deviceOrientation);
+    }
+
 
     @もし("\"([^\"]*)\"で指定できるカレンダー表示を消して")
     public void eraseCalendar(String name) throws InterruptedException {

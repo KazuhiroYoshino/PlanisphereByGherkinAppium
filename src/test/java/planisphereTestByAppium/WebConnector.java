@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -26,6 +27,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 
@@ -48,6 +50,8 @@ public class WebConnector {
 
     /** WebDriverクラス */
     public static WebDriver webDriver;
+
+//    public static AppiumDriver driver;
 
     /** 実行中のWebDriverタイプを保持する */
     private int DriverType;
@@ -89,6 +93,43 @@ public class WebConnector {
     private String window1;
     private String window2;
 
+    private DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+
+/**
+ * モバイルデバイスの選択
+ */
+    public void selectDevice(String device) {
+//	    desiredCapabilities.setCapability("version","10.0 " + device);
+//	    desiredCapabilities.setCapability("deviceName",device);
+    	String avdName = null;
+
+    	switch(device) {
+    	case("Nexus_10_API_29"):
+    		avdName = device + "_1";
+    		break;
+    	case("Nexus_4_API_29"):
+    		avdName = device + "_1";
+    		break;
+    	case("Nexus_6_API_29"):
+    		avdName = device + "_1";
+    		break;
+    	case("Nexus_9_API_29"):
+    		avdName = device + "_1";
+    		break;
+    	case("Pixel_3_XL_API_29"):
+    		avdName = device + "_1";
+    		break;
+    	case("Pixel_4_XL_API_29"):
+    		avdName = device;
+    		break;
+    	case("Pixel_C_API_29"):
+    		avdName = device + "_1";
+    		break;
+    	default:
+    	}
+	    desiredCapabilities.setCapability("avd",avdName);
+
+    }
 
     /**
      * WebDriverの選択
@@ -115,10 +156,16 @@ public class WebConnector {
      * @throws MalformedURLException
      */
     private void setWebDriver() throws InterruptedException, MalformedURLException {
-	    DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-	    desiredCapabilities.setCapability("deviceName","Android Emulator");
+	    URL remoteUrl = new URL("http://localhost:4723/wd/hub");
+	    URL remoteUrl2 = new URL("http://localhost:4724/wd/hub");
+
+
+//	    desiredCapabilities.setCapability("deviceName","Android Emulator");
+//	    desiredCapabilities.setCapability("deviceName","Nexus_10_API_29");
 	    desiredCapabilities.setCapability("platformName", "Android");
-	    desiredCapabilities.setCapability("platformVersion", "10.0");
+//	    desiredCapabilities.setCapability("platformVersion", "10.0");
+
+//	    desiredCapabilities.setCapability("automationName", "Espresso");
 
         switch (this.DriverType) {
         case BROWSER_TYPE_EDGE: // Edge
@@ -138,13 +185,19 @@ public class WebConnector {
 //            webDriver =new ChromeDriver(options);
             break;
         }
-	    URL remoteUrl = new URL("http://localhost:4723/wd/hub");
 //	    Andriver = new AndroidDriver<AndroidElement>(remoteUrl, desiredCapabilities);
 	    webDriver = new AndroidDriver<AndroidElement>(remoteUrl, desiredCapabilities);
 //	    webDriver = = new RemoteWebDriver(remoteUrl,desireCapabilities);
-
 //        this.builder =  new Actions(this.driver);
-        Thread.sleep(3000);
+
+//	    DesiredCapabilities deviceCapabilities = new DesiredCapabilities();
+//	    deviceCapabilities.setCapability("deviceName","Android Emulator");
+//	    deviceCapabilities.setCapability("platformName", "Android");
+//	    deviceCapabilities.setCapability("platformVersion", "10.0");
+//	    deviceCapabilities.setCapability("appPackage", "io.appium.android.apis");
+//	    driver = new AppiumDriver<AndroidElement>(remoteUrl, deviceCapabilities);
+
+	    Thread.sleep(3000);
         //暗黙wait
         //this.webDriver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS);
 
@@ -209,6 +262,22 @@ public class WebConnector {
 
     }
 
+/**
+ * デバイス縦横
+ * @throws InterruptedException
+ */
+    public void setDeviceRotation(String deviceOrientation) throws InterruptedException {
+
+    	if(deviceOrientation.equals("landscape")) {
+//    		driver.rotate(ScreenOrientation.LANDSCAPE);
+    		((AppiumDriver) webDriver).rotate(ScreenOrientation.LANDSCAPE);
+    	}
+    	if(deviceOrientation.equals("portrait")) {
+//    		driver.rotate(ScreenOrientation.PORTRAIT);
+    		((AppiumDriver) webDriver).rotate(ScreenOrientation.PORTRAIT);
+    	}
+    	Thread.sleep(1000);
+    }
 
     /**
      * 指定時間待つ
@@ -304,6 +373,8 @@ public class WebConnector {
     public void destroySelenium() {
         //WebDriver プロセスを終了し、ブラウザを閉じる
         webDriver.quit();
+//        desiredCapabilities.quit();
+//        driver.quit();
 //        Andriver.quit();
     }
 
