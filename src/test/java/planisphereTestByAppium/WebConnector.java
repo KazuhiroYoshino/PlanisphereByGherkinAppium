@@ -105,7 +105,7 @@ public class WebConnector {
 
     	switch(device) {
     	case("Nexus_10_API_29"):
-    		avdName = device + "_1";
+    		avdName = device;
     		break;
     	case("Nexus_4_API_29"):
     		avdName = device + "_1";
@@ -114,7 +114,7 @@ public class WebConnector {
     		avdName = device + "_1";
     		break;
     	case("Nexus_9_API_29"):
-    		avdName = device + "_1";
+    		avdName = device;
     		break;
     	case("Pixel_3_XL_API_29"):
     		avdName = device + "_1";
@@ -123,7 +123,7 @@ public class WebConnector {
     		avdName = device;
     		break;
     	case("Pixel_C_API_29"):
-    		avdName = device + "_1";
+    		avdName = device;
     		break;
     	default:
     	}

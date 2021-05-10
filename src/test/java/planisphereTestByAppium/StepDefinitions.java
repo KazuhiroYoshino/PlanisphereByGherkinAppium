@@ -34,6 +34,7 @@ public class StepDefinitions {
  */
     @前提("^デバイスを\"([^\"]*)\"で選ぶ$")
     public void selectDevice(String device) {
+    	mobileDevice = device;
     	connector.selectDevice(device);
     }
 
@@ -698,6 +699,7 @@ public class StepDefinitions {
         }else {
         	connector.destroySelenium();
         	Thread.sleep(5000);
+        	connector.selectDevice(mobileDevice);
         	connector.rebootBrowser(mobileBrowserType,mobileUrl);
         	connector.btnClickAndWait_CSS("span.navbar-toggler-icon");
         	Thread.sleep(3000);

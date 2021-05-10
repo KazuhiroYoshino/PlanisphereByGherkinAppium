@@ -5,8 +5,8 @@ import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(plugin = {"pretty"}, features = "src/test/resources/reserve.feature"
+@CucumberOptions(plugin = {"pretty"}, features = "src/test/resources/reserveNormal.feature"
 	      )
-public class RunReserveTest {
+public class RunReserveTestNormalMember {
 
 }
