@@ -413,6 +413,17 @@ public class WebConnector {
     		return getText;
     	}
 
+        public String getString(String selector) throws InterruptedException {
+        	String getText = null;
+        	WebElement text = webDriver.findElement(By.id(selector));
+        	wait.until(ExpectedConditions.visibilityOf(text));
+        	getText = text.getText();
+        	Thread.sleep(500);
+
+			return getText;
+
+        }
+
     /**
      * テキストボックス入力系
      */
@@ -973,7 +984,7 @@ public class WebConnector {
             WebElement inputDate = webDriver.findElement(By.id(commandLocater));
             wait.until(ExpectedConditions.elementToBeClickable(inputDate));
             inputDate.clear();
-            Thread.sleep(500);
+            Thread.sleep(800);
 //            reserveYear = reserveYear + "\n";
             inputDate.sendKeys(inputText);
             Thread.sleep(500);
@@ -1036,7 +1047,7 @@ public class WebConnector {
             WebElement inputDate = webDriver.findElement(By.id(commandLocater));
             wait.until(ExpectedConditions.elementToBeClickable(inputDate));
             inputDate.clear();
-            Thread.sleep(500);
+            Thread.sleep(800);
 //            reserveYear = reserveYear + "\n";
             inputDate.sendKeys(inputText);
             Thread.sleep(500);
@@ -1084,7 +1095,7 @@ public class WebConnector {
             WebElement inputDate = webDriver.findElement(By.id(commandLocater));
             wait.until(ExpectedConditions.elementToBeClickable(inputDate));
             inputDate.clear();
-            Thread.sleep(500);
+            Thread.sleep(800);
 //            reserveYear = reserveYear + "\n";
             inputDate.sendKeys(inputText);
             Thread.sleep(500);
@@ -1132,7 +1143,7 @@ public class WebConnector {
             WebElement inputDate = webDriver.findElement(By.id(commandLocater));
             wait.until(ExpectedConditions.elementToBeClickable(inputDate));
             inputDate.clear();
-            Thread.sleep(500);
+            Thread.sleep(800);
 //            reserveYear = reserveYear + "\n";
             inputDate.sendKeys(inputText);
             Thread.sleep(500);
@@ -1180,7 +1191,7 @@ public class WebConnector {
             WebElement inputDate = webDriver.findElement(By.id(commandLocater));
             wait.until(ExpectedConditions.elementToBeClickable(inputDate));
             inputDate.clear();
-            Thread.sleep(500);
+            Thread.sleep(800);
 //            reserveYear = reserveYear + "\n";
             inputDate.sendKeys(inputText);
             Thread.sleep(500);
@@ -1228,7 +1239,7 @@ public class WebConnector {
             WebElement inputDate = webDriver.findElement(By.id(commandLocater));
             wait.until(ExpectedConditions.elementToBeClickable(inputDate));
             inputDate.clear();
-            Thread.sleep(500);
+            Thread.sleep(800);
 //            reserveYear = reserveYear + "\n";
             inputDate.sendKeys(inputText);
             Thread.sleep(500);
@@ -1276,7 +1287,7 @@ public class WebConnector {
             WebElement inputDate = webDriver.findElement(By.id(commandLocater));
             wait.until(ExpectedConditions.elementToBeClickable(inputDate));
             inputDate.clear();
-            Thread.sleep(500);
+            Thread.sleep(800);
 //            reserveYear = reserveYear + "\n";
             inputDate.sendKeys(inputText);
             Thread.sleep(500);
