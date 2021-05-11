@@ -667,6 +667,8 @@ public class StepDefinitions {
 
 		if(tel.length() != 0) {
 			assertTrue(connector.testText(selector, tel));
+		}else {
+			assertTrue(connector.testText(selector, "未登録"));
 		}
 	}
 

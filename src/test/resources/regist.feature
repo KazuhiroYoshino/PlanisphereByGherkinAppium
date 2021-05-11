@@ -20,6 +20,7 @@
 フィーチャ: Hotel Planisphere 会員登録機能
 
     シナリオ: 会員登録ページを開く
+				前提 デバイスを"Nexus_4_API_29"で選ぶ
         前提 Webドライバは"Chrome"を選択する
 #Hotel Planisphere TOPページを開く
         前提 ページ"https://hotel.testplanisphere.dev/ja/index.html"を表示する
